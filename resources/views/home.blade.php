@@ -52,7 +52,7 @@
 <div class="container">
     @if (Auth::check())
         <h1>Selamat Datang di Halaman Home</h1>
-        <p>Form input data, <a href="{{ route('from_input') }}">klik disini</a></p>
+        <p>Next, <a href="{{ route('pages.welcome') }}">klik di sini</a> untuk melanjutkan.</p>
     @else
         <p>Silakan <a href="{{ route('login') }}">masuk</a> terlebih dahulu untuk mengakses halaman ini.</p>
     @endif

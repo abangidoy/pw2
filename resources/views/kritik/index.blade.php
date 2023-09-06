@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('judul')
-    Daftar Genre
+    Daftar Kritik
 @endsection
 
 @push('style')
@@ -11,14 +11,14 @@
 @endpush
 
 @section('content')
-<a class="btn btn-secondary mb-3" href="/genre/create"><i class="bi bi-person-plus-fill"></i> Tambah Genre</a>
+<a class="btn btn-secondary mb-3" href="/kritik/create"><i class="bi bi-person-plus-fill"></i> Tambah Kritik</a>
 @if(session('success'))
-<div id="success-genre" class="alert alert-success">
+<div id="success-kritik" class="alert alert-success">
     {{ session('success') }}
 </div>
 @endif
 @if(session('warning'))
-<div id="success-genre" class="alert alert-warning">
+<div id="warning-kritik" class="alert alert-warning">
     {{ session('warning') }}
 </div>
 @endif
@@ -26,25 +26,31 @@
     <thead class="thead-dark">
         <tr>
             <th scope="col">#</th>
-            <th scope="col">Nama Genre</th>
+            <th scope="col">Isi Kritik</th>
+            <th scope="col">Point</th>
+            <th scope="col">Login ID</th>
+            <th scope="col">Film ID</th>
             <th scope="col">Action</th>
         </tr>
     </thead>
     <tbody>
-        @forelse ($genres as $key => $genre)
+        @forelse ($kritiks as $key => $item)
         <tr>
             <td>{{ $key + 1 }}</td>
-            <td>{{ $genre->nama }}</td>
+            <td>{{ $item->content }}</td>
+            <td>{{ $item->point }}</td>
+            <td>{{ $item->login_id}}</td>
+            <td>{{ $item->film_id }}</td>
             <td>
-                <a href="/genre/{{ $genre->id }}/edit" class="btn btn-warning btn-sm"><i class="bi bi-pen-fill"></i></i></a>
-                <button type="button" class="btn btn-warning btn-sm btn-delete" data-id="{{ $genre->id }}">
+                <a href="/kritik/{{ $item->id }}/edit" class="btn btn-warning btn-sm"><i class="bi bi-pen-fill"></i></i></a>
+                <button type="button" class="btn btn-warning btn-sm btn-delete" data-id="{{ $item->id }}">
                     <i class="bi bi-trash-fill"></i>
                 </button>
             </td>
         </tr>
         @empty
         <tr>
-            <td colspan="3"><h2>Data tidak ada</h2></td>
+            <td colspan="6"><h2>Data tidak ada</h2></td>
         </tr>
         @endforelse
     </tbody>
@@ -76,7 +82,7 @@
                     if (result.isConfirmed) {
                         const form = document.createElement('form');
                         form.method = 'POST';
-                        form.action = '/genre/' + itemId;
+                        form.action = '/kritik/' + itemId;
                         form.style.display = 'none';
                         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
                         const csrfInput = document.createElement('input');
@@ -98,13 +104,21 @@
 
 <script>
     // Ambil elemen pesan flash session
-    const successAlert = document.getElementById('success-genre');
+    const successAlert = document.getElementById('success-kritik');
+    const warningAlert = document.getElementById('warning-kritik');
 
     // Cek apakah elemen pesan ada
     if (successAlert) {
         // Setelah 10 detik, sembunyikan elemen pesan
         setTimeout(function() {
             successAlert.style.display = 'none';
+        }, 10000); // 10 detik
+    }
+
+    if (warningAlert) {
+        // Setelah 10 detik, sembunyikan elemen pesan
+        setTimeout(function() {
+            warningAlert.style.display = 'none';
         }, 10000); // 10 detik
     }
 </script>

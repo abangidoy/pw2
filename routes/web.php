@@ -8,6 +8,9 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\HistoryCastController;
 use App\Http\Controllers\FilmController;
 use App\Http\Controllers\GenreController;
+use App\Http\Controllers\KritikController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PeranController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Middleware\isLogin;
 
@@ -46,6 +49,9 @@ Route::group([], function () {
     Route::get('/film', [FilmController::class, 'index'])->name('film.index')->Middleware('isLogin');
     Route::get('/akun', [ResetPasswordController::class, 'reset-password-from'])->name('akun.reset-password-from')->Middleware('isLogin');
     Route::get('/genre', [GenreController::class, 'index'])->name('genre.index')->Middleware('isLogin');
+    Route::get('/kritik', [KritikController::class, 'index'])->name('kritik.index')->Middleware('isLogin');
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index')->Middleware('isLogin');
+    Route::get('/peran', [PeranController::class, 'index'])->name('peran.index')->Middleware('isLogin');
 });
 
 // CRUD CAST
@@ -88,3 +94,26 @@ Route::get('/genre/{id}', [GenreController::class,'show'])->name('genre.show');
 Route::get('/genre/{id}/edit',[GenreController::class,'edit'])->name('genre.edit');
 Route::put('/genre/{id}', [GenreController::class,'update'])->name('genre.update');
 Route::delete('/genre/{id}', [GenreController::class,'destroy'])->name('genre.destroy');
+
+//rute kritik
+Route::get('/kritik/create', [KritikController::class, 'create'])->name('kritik.create');
+Route::post('/kritik', [KritikController::class, 'store'])->name('kritik.store');
+Route::get('/kritik/{id}', [KritikController::class, 'show'])->name('kritik.show');
+Route::get('/kritik/{id}/edit', [KritikController::class, 'edit'])->name('kritik.edit');
+Route::put('/kritik/{id}', [KritikController::class, 'update'])->name('kritik.update');
+Route::delete('/kritik/{id}', [KritikController::class, 'destroy'])->name('kritik.destroy');
+
+//rute profile
+Route::get('/profile/create', [ProfileController::class, 'create'])->name('profile.create');
+Route::post('/profile', [ProfileController::class, 'store'])->name('profile.store');
+Route::get('/profile/{id}', [ProfileController::class, 'show'])->name('profile.show');
+Route::get('/profile/{id}/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+Route::put('/profile/{id}', [ProfileController::class, 'update'])->name('profile.update');
+Route::delete('/profile/{id}', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+//rute peran 
+Route::get('/peran/create', [PeranController::class, 'create'])->name('peran.create');
+Route::post('/peran', [PeranController::class, 'store'])->name('peran.store');
+Route::get('/peran/{id}/edit', [PeranController::class, 'edit'])->name('peran.edit');
+Route::put('/peran/{id}', [PeranController::class, 'update'])->name('peran.update');
+Route::delete('/peran/{id}', [PeranController::class, 'destroy'])->name('peran.destroy');

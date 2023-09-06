@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Film;
+use App\Models\Genre;
 use App\Models\HistoryFilm;
 use Carbon\Carbon;
 
@@ -16,41 +17,32 @@ class FilmController extends BaseController
 
     public function create()
     {
-    return view('film.create');
+        $genres = Genre::all();
+        return view('film.create', compact('genres'));
     }
 
+    // ...
+
     public function store(Request $request)
-{
-    $request->validate([
-        'judul' => 'required',
-        'ringkasan' => 'required',
-        'tahun' => 'required',
-        'poster' => 'required',
-        'genre_id' => 'required',
-    ]);
+    {
+        $request->validate([
+            'judul' => 'required',
+            'ringkasan' => 'required',
+            'tahun' => 'required',
+            'poster' => 'required',
+            'genre_id' => 'required',
+        ]);
 
-    $film = new Film;
-    $film->judul = $request->judul;
-    $film->ringkasan = $request->ringkasan;
-    $film->tahun = $request->tahun;
-    $film->poster = $request->poster;
-    $film->genre_id = $request->genre_id;
-    $film->save();
+        $film = new Film;
+        $film->judul = $request->judul;
+        $film->ringkasan = $request->ringkasan;
+        $film->tahun = $request->tahun;
+        $film->poster = $request->poster;
+        $film->genre_id = $request->genre_id; // Menggunakan genre_id yang dipilih
+        $film->save();
 
-    // Simpan riwayat perubahan dengan waktu Jakarta
-    // HistoryFilm::create([
-    //     'film_id' => $film->id,
-    //     'action' => 'Created', // Simpan aksi 'Created'
-    //     'time' => Carbon::now('Asia/Jakarta')->format('Y-m-d H:i:s'), // Waktu di Jakarta
-    //     'judul' => $film->judul, // Simpan judul dari entitas Film
-    //     'ringkasan' => $film->ringkasan, // Simpan ringkasan dari entitas Film
-    //     'tahun' => $film->tahun,   // Simpan tahun dari entitas Film
-    //     'poster' => $film->poster,   // Simpan poster dari entitas Film
-    //     'genre_id' => $film->genre_id,   // Simpan genre_id dari entitas Film
-    // ]);
-
-    return redirect('/film')->with('success', 'Data berhasil disimpan');
-}
+        return redirect('/film')->with('success', 'Data berhasil disimpan');
+    }
 
     public function edit($id)
     {
@@ -82,18 +74,6 @@ class FilmController extends BaseController
         $film->genre_id = $request->genre_id;
         $film->save();
 
-        // Simpan riwayat perubahan dengan waktu Jakarta
-        // HistoryFilm::create([
-        //     'film_id' => $film->id,
-        //     'action' => 'Updated',
-        //     'time' => Carbon::now('Asia/Jakarta')->format('Y-m-d H:i:s'), // Waktu di Jakarta
-        //     'judul' => $oldData['judul'],
-        //     'ringkasan' => $oldData['ringkasan'],
-        //     'tahun' => $oldData['tahun'],
-        //     'poster' => $oldData['poster'],
-        //     'genre_id' => $oldData['genre_id'],
-        // ]);
-
         return redirect('/film')->with('success', 'Data berhasil diperbarui');
     }
 
@@ -101,18 +81,6 @@ class FilmController extends BaseController
     {
         $film = Film::findOrFail($id);
         $oldData = $film->toArray(); // Simpan data sebelum dihapus
-
-        // Simpan riwayat perubahan dengan waktu Jakarta
-        // HistoryFilm::create([
-        //     'film_id' => $oldData['id'],
-        //     'action' => 'Deleted',
-        //     'time' => Carbon::now('Asia/Jakarta')->format('Y-m-d H:i:s'), // Waktu di Jakarta
-        //     'judul' => $oldData['judul'],
-        //     'ringkasan' => $oldData['ringkasan'],
-        //     'tahun' => $oldData['tahun'],
-        //     'poster' => $oldData['poster'],
-        //     'genre_id' => $oldData['genre_id'],
-        // ]);
 
         $film->delete();
         return redirect('/film')->with('success', 'Data berhasil dihapus');

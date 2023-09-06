@@ -89,6 +89,26 @@
                         <p>Genre</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                <a href="{{ route('kritik.index') }}" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Kritik</p>
+                </a>
+            </li>
+            </li>
+                <li class="nav-item">
+                <a href="{{ route('profile.index') }}" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Profile</p>
+                </a>
+            </li>
+            </li>
+                <li class="nav-item">
+                <a href="{{ route('peran.index') }}" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Peran</p>
+                </a>
+            </li>
             </ul>
         </li>
 

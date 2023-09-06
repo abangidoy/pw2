@@ -17,6 +17,12 @@ class Login extends Model implements Authenticatable
 
     protected $fillable = ['user', 'password', 'namadepan', 'namabelakang', 'gender', 'remember_token'];
 
+    // Metode untuk menggabungkan nama depan dan nama belakang menjadi nama lengkap
+    public function getFullNameAttribute()
+    {
+        return $this->attributes['namadepan'] . ' ' . $this->attributes['namabelakang'];
+    }
+
     public function getAuthIdentifierName()
     {
         return 'user';
@@ -46,5 +52,10 @@ class Login extends Model implements Authenticatable
     public function getRememberTokenName()
     {
         return 'remember_token';
+    }
+    
+    public function kritik(): HasMany
+    {
+        return $this->hasMany(Kritik::class, 'login_id'); // Pastikan 'login_id' adalah kolom yang sesuai dengan relasi.
     }
 }
