@@ -17,10 +17,10 @@
         <input type="number" name="point" value="{{ old('point') }}" class="form-control">
     </div>
     <div class="form-group">
-        <label>Film_id</label>
+        <label>Film</label>
         <select name="film_id" class="form-control">
-            @foreach ($filmIds as $filmId)
-                <option value="{{ $filmId }}">{{ $filmId }}</option>
+            @foreach ($films as $film)
+                <option value="{{ $film->id }}">{{ $film->judul }}</option>
             @endforeach
         </select>
     </div>

@@ -13,7 +13,7 @@
 @section('content')
     <a class="btn btn-secondary mb-3" href="{{ route('peran.create') }}"><i class="bi bi-person-plus-fill"></i> Tambah Peran</a>
     @if(session('success'))
-        <div id="success-peran" class="alert alert-success">
+        <div id="success-peran" class="alert alert-warning">
             {{ session('success') }}
         </div>
     @endif
@@ -26,9 +26,9 @@
         <thead class="thead-dark">
             <tr>
                 <th scope="col">#</th>
+                <th scope="col">Film</th>
+                <th scope="col">Cast</th>
                 <th scope="col">Nama</th>
-                <th scope="col">Cast ID</th>
-                <th scope="col">Film ID</th>
                 <th scope="col">Action</th>
             </tr>
         </thead>
@@ -36,9 +36,9 @@
             @forelse ($perans as $key => $peran)
                 <tr>
                     <td>{{ $key + 1 }}</td>
+		            <td>{{ $peran->film->judul }}</td>
+			        <td>{{ $peran->cast->nama }}</td>
                     <td>{{ $peran->nama }}</td>
-                    <td>{{ $peran->cast_id }}</td>
-                    <td>{{ $peran->film_id }}</td>
                     <td>
                         <a href="{{ route('peran.edit', $peran->id) }}" class="btn btn-warning btn-sm"><i class="bi bi-pen-fill"></i></a>
                         <button type="button" class="btn btn-warning btn-sm btn-delete" data-id="{{ $peran->id }}">
@@ -101,8 +101,8 @@
     </script>
     <script>
     // Ambil elemen pesan flash session
-    const successAlert = document.getElementById('success-profile');
-    const warningAlert = document.getElementById('warning-profile');
+    const successAlert = document.getElementById('success-peran');
+    const warningAlert = document.getElementById('warning-peran');
 
     // Cek apakah elemen pesan ada
     if (successAlert) {

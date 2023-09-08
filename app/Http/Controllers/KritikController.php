@@ -12,81 +12,79 @@ class KritikController extends Controller
 {
     public function index()
     {
-        $kritiks = Kritik::with('login')->get();
-        return view('kritik.index', compact('kritiks'));
+        $kritik = Kritik::all();
+        return view('kritik.index', compact('kritik'));
     }
 
     public function show($id)
     {
-
+        // Tampilkan detail kritik berdasarkan ID
         $kritik = Kritik::findOrFail($id);
         return view('kritik.show', compact('kritik'));
     }
 
     public function create()
     {
-        $logins = Login::all();
-        $filmIds = Film::pluck('id');
-    
-        return view('kritik.create', compact('logins', 'filmIds'));
+        $films = Film::all();
+        return view('kritik.create', compact('films'));
     }
 
     public function store(Request $request)
     {
-
         $request->validate([
             'content' => 'required',
-            'point' => 'required|numeric',
+            'point' => 'required',
             'film_id' => 'required',
         ]);
-
-        $kritik = new Kritik();
-        $kritik->content = $request->input('content');
-        $kritik->point = $request->input('point');
     
-        $kritik->login_id = Auth::user()->id;
-    
-        $kritik->film_id = $request->input('film_id');
-    
+        $kritik = new Kritik;
+        $kritik->content = $request->content;
+        $kritik->point = $request->point;
+        $kritik->film_id = $request->film_id;
         $kritik->save();
     
-        return redirect()->route('kritik.index')->with('success', 'Kritik telah berhasil ditambahkan.');
+        return redirect('/kritik')->with('success', 'Data berhasil disimpan');
     }
 
     public function edit($id)
     {
-
+        // Temukan kritik berdasarkan ID
         $kritik = Kritik::findOrFail($id);
-
+    
+        // Muat data dari model Login
         $logins = Login::all();
-        $films = Film::all();
-
-
-        return view('kritik.edit', compact('kritik', 'logins', 'films'));
-    }
+    
+        // Tampilkan tampilan edit kritik dan kirimkan data logins
+        return view('kritik.edit', compact('kritik', 'logins'));
+    }    
 
     public function update(Request $request, $id)
     {
-
+        // Validasi data input dari formulir
         $request->validate([
             'content' => 'required',
             'point' => 'required|numeric',
-            'film_id' => 'required',
         ]);
     
-
+        // Temukan kritik berdasarkan ID
         $kritik = Kritik::findOrFail($id);
-        $kritik->update($request->all());
     
-        return redirect()->route('kritik.index');
-    }
+        // Perbarui data kritik berdasarkan data input dari formulir
+        $kritik->content = $request->input('content');
+        $kritik->point = $request->input('point');
+        $kritik->save();
+    
+        // Redirect ke halaman yang sesuai (misalnya, daftar kritik)
+        return redirect()->route('kritik.index')->with('success', 'Data berhasil diperbarui');
+    }    
 
     public function destroy($id)
     {
-
+        // Hapus kritik dari database berdasarkan ID
         $kritik = Kritik::findOrFail($id);
         $kritik->delete();
 
+        // Redirect ke halaman yang sesuai (misalnya, daftar kritik)
         return redirect()->route('kritik.index');
     }
 }

@@ -34,13 +34,13 @@
         </tr>
     </thead>
     <tbody>
-        @forelse ($kritiks as $key => $item)
+        @forelse ($kritik as $key => $item)
         <tr>
             <td>{{ $key + 1 }}</td>
             <td>{{ $item->content }}</td>
             <td>{{ $item->point }}</td>
             <td>{{ $item->login_id}}</td>
-            <td>{{ $item->film_id }}</td>
+            <td>{{ $item->film->judul }}</td>
             <td>
                 <a href="/kritik/{{ $item->id }}/edit" class="btn btn-warning btn-sm"><i class="bi bi-pen-fill"></i></i></a>
                 <button type="button" class="btn btn-warning btn-sm btn-delete" data-id="{{ $item->id }}">

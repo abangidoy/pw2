@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <form method="post" action="{{ route('peran.update', $peran->id) }}">
+    <form method="post" action="{{ route('peran.update', $peran->id) }}" id="edit-peran-form">
         @csrf
         @method('PUT')
 
@@ -37,22 +37,22 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        document.querySelector('form').addEventListener('submit', function (event) {
-            event.preventDefault();
-            Swal.fire({
-                title: "Konfirmasi",
-                text: "Apakah Anda ingin menyimpan perubahan?",
-                icon: "info",
-                showCancelButton: true,
-                confirmButtonColor: "#FFCC00",
-                cancelButtonColor: "#FFCC00",
-                confirmButtonText: "Ya",
-                cancelButtonText: "Batal"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    this.submit();
-                }
-            });
+    document.querySelector('#edit-peran-form').addEventListener('submit', function (event) {
+        event.preventDefault();
+        Swal.fire({
+            title: "Konfirmasi",
+            text: "Apakah Anda ingin menyimpan perubahan?",
+            icon: "info",
+            showCancelButton: true,
+            confirmButtonColor: "#FFCC00",
+            cancelButtonColor: "#FFCC00",
+            confirmButtonText: "Ya",
+            cancelButtonText: "Batal"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                this.submit();
+            }
         });
-    </script>
+    });
+</script>
 @endsection
